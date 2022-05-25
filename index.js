@@ -16,6 +16,7 @@ async function run() {
     try {
         await client.connect();
         const toolCollection = client.db('tools-manufacturer-site').collection('tools');
+        const bookingCollection = client.db('tools-manufacturer-site').collection('bookings');
 
         app.get('/tool', async (req, res) => {
             const query = {};
@@ -30,6 +31,13 @@ async function run() {
             const tool = await toolCollection.findOne(query);
             res.send(tool);
         });
+
+        app.post('/booking', async (req, res) => {
+            const booking = req.body;
+            const query = { toolname: booking.toolname, useremail: booking.useremail, username: booking.username }
+            const result = await bookingCollection.insertOne(booking);
+            res.send(result);
+        })
     }
     finally {
 
