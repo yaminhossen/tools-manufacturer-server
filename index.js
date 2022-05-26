@@ -26,6 +26,13 @@ async function run() {
             res.send(tools);
         });
 
+        app.get('/review', async (req, res) => {
+            const query = {};
+            const cursor = reviewCollection.find(query);
+            const reviews = await cursor.toArray();
+            res.send(reviews);
+        });
+
         app.get('/booking', async (req, res) => {
             const useremail = req.query.useremail;
             const query = { useremail: useremail };
