@@ -25,6 +25,13 @@ async function run() {
             res.send(tools);
         });
 
+        app.get('/booking', async (req, res) => {
+            const query = {}
+            const cursor = bookingCollection.find(query);
+            const bookings = await cursor.toArray();
+            res.send(bookings);
+        })
+
         app.get('/tool/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
@@ -35,9 +42,15 @@ async function run() {
         app.post('/booking', async (req, res) => {
             const booking = req.body;
             const query = { toolname: booking.toolname, useremail: booking.useremail, username: booking.username }
+            const exists = await bookingCollection.findOne(query);
+            if (exists) {
+                return res.send({ success: false, booking: exists })
+            }
             const result = await bookingCollection.insertOne(booking);
-            res.send(result);
+            return res.send({ success: true, result });
         })
+
+
     }
     finally {
 
