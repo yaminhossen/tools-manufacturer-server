@@ -26,9 +26,10 @@ async function run() {
         });
 
         app.get('/booking', async (req, res) => {
-            const query = {}
-            const cursor = bookingCollection.find(query);
-            const bookings = await cursor.toArray();
+            const useremail = req.query.useremail;
+            const query = { useremail: useremail };
+            // const cursor = bookingCollection.find(query);
+            const bookings = await bookingCollection.find(query).toArray();
             res.send(bookings);
         })
 
@@ -48,6 +49,13 @@ async function run() {
             }
             const result = await bookingCollection.insertOne(booking);
             return res.send({ success: true, result });
+        })
+
+        app.delete('/booking/:useremail', async (req, res) => {
+            const useremail = req.params.useremail;
+            const filter = { useremail: useremail };
+            const result = await bookingCollection.deleteOne(filter);
+            res.send(result);
         })
 
 
