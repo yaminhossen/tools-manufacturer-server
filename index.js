@@ -18,6 +18,7 @@ async function run() {
         const toolCollection = client.db('tools-manufacturer-site').collection('tools');
         const bookingCollection = client.db('tools-manufacturer-site').collection('bookings');
         const reviewCollection = client.db('tools-manufacturer-site').collection('reviews');
+        const profileCollection = client.db('tools-manufacturer-site').collection('profiles');
 
         app.get('/tool', async (req, res) => {
             const query = {};
@@ -63,6 +64,25 @@ async function run() {
         app.post('/review', async (req, res) => {
             const review = req.body;
             const result = await reviewCollection.insertOne(review);
+            res.send(result);
+        })
+
+        // ex
+        // app.put('/profile/:email', async (req, res) => {
+        //     const email = req.params.email;
+        //     const user = req.body;
+        //     const filter = { email: email };
+        //     const options = { upsert: true };
+        //     const updateDoc = {
+        //         $set: user,
+        //     };
+        //     const result = await profileCollection.updateOne(filter, updateDoc, options);
+        //     res.send({ result, token });
+        // })
+        // for profile
+        app.post('/profile', async (req, res) => {
+            const profile = req.body;
+            const result = await profileCollection.insertOne(profile);
             res.send(result);
         })
 
