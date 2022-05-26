@@ -17,6 +17,7 @@ async function run() {
         await client.connect();
         const toolCollection = client.db('tools-manufacturer-site').collection('tools');
         const bookingCollection = client.db('tools-manufacturer-site').collection('bookings');
+        const reviewCollection = client.db('tools-manufacturer-site').collection('reviews');
 
         app.get('/tool', async (req, res) => {
             const query = {};
@@ -49,6 +50,13 @@ async function run() {
             }
             const result = await bookingCollection.insertOne(booking);
             return res.send({ success: true, result });
+        })
+
+        // post
+        app.post('/review', async (req, res) => {
+            const review = req.body;
+            const result = await reviewCollection.insertOne(review);
+            res.send(result);
         })
 
         app.delete('/booking/:useremail', async (req, res) => {
