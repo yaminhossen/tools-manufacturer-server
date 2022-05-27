@@ -74,19 +74,7 @@ async function run() {
             res.send(result);
         })
 
-        // ex
-        // app.put('/profile/:email', async (req, res) => {
-        //     const email = req.params.email;
-        //     const user = req.body;
-        //     const filter = { email: email };
-        //     const options = { upsert: true };
-        //     const updateDoc = {
-        //         $set: user,
-        //     };
-        //     const result = await profileCollection.updateOne(filter, updateDoc, options);
-        //     res.send({ result, token });
-        // })
-        // for profile
+
         app.post('/profile', async (req, res) => {
             const profile = req.body;
             const result = await profileCollection.insertOne(profile);
